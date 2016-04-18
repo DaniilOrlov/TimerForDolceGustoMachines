@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Timer for Dolce Gusto machines</string>
+    <string name="toast_one_cup">Пожалуйста, сначала остановите текущий таймер.</string>
+    <string name="vibration_settings">вибрация</string>
+</resources>
