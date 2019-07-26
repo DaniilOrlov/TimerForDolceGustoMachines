@@ -1,4 +1,4 @@
-package orlov.daniil.dolcegustobrewtimer;
+package orlov.daniil.timerfordolcegustomachines;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;
