@@ -4,23 +4,41 @@ import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
+import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
-@Entity(tableName = "capsules")
+import static androidx.room.ForeignKey.CASCADE;
+
+@Entity(tableName = "capsules",
+        foreignKeys = @ForeignKey(entity =
+                Brew.class,
+                parentColumns = "id",
+                childColumns = "brew_id",
+                onDelete = CASCADE),
+        indices = {@Index("brew_id")})
 public class Capsule {
     @PrimaryKey(autoGenerate = true)
     public int id;
 
-    @ForeignKey(entity = Brew.class,
-            parentColumns = "id",
-            childColumns = "brew_id")
     @ColumnInfo(name = "brew_id")
-    public int brewId;
+    public final int brewId;
 
     @NonNull
     @ColumnInfo(name = "capsule_type")
-    public String capsuleType;
+    public final String capsuleType;
 
     @ColumnInfo(name = "brew_time")
-    public int brewTime;
+    public final int brewTime;
+
+    public Capsule(final int brewId, final String capsuleType, int brewTime){
+        this.brewId = brewId;
+        this.capsuleType = capsuleType;
+        this.brewTime = brewTime;
+    }
+
+    @NonNull
+    @Override
+    public String toString() {
+        return  "id: " + id + " brewId: " + brewId;
+    }
 }

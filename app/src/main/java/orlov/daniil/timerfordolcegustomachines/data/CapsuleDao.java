@@ -13,6 +13,12 @@ public interface CapsuleDao {
     @Query("SELECT * FROM capsules")
     List<Capsule> getAll();
 
+    @Query("SELECT * FROM capsules WHERE id=:id")
+    Capsule getCapsuleById(int id);
+
+    @Query("SELECT * FROM capsules WHERE brew_id=:brewId")
+    Capsule getCapsuleByBrewId(int brewId);
+
     @Insert
     void insert(Capsule... capsules);
 
@@ -27,4 +33,7 @@ public interface CapsuleDao {
 
     @Delete
     void delete(Capsule... capsules);
+
+    @Query("DELETE FROM capsules WHERE id=:id")
+    void deleteById(int id);
 }

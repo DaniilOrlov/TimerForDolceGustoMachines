@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Vibrator;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -14,12 +15,74 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.util.List;
+
+import orlov.daniil.timerfordolcegustomachines.data.Brew;
+import orlov.daniil.timerfordolcegustomachines.data.BrewDao;
+import orlov.daniil.timerfordolcegustomachines.data.Capsule;
+import orlov.daniil.timerfordolcegustomachines.data.CapsuleDao;
+import orlov.daniil.timerfordolcegustomachines.data.CoffeeDatabase;
+
 public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        Log.v("MainActivity:", "BEFORE NEW THREAD");
+
+//        Executors.newSingleThreadScheduledExecutor().execute(new Runnable() {
+//            @Override
+//            public void run() {
+//                RoomDatabase db = CoffeeDatabase.getInstance(getApplicationContext());
+//                db.beginTransaction();
+//                db.endTransaction();
+//            }
+//        });
+
+        final BrewDao brewDao = CoffeeDatabase
+                .getInstance(this)
+                .getBrewDao();
+
+        final CapsuleDao capsuleDao = CoffeeDatabase
+                .getInstance(this)
+                .getCapsuleDao();
+
+
+
+        Thread thread = new Thread(new Runnable() {
+
+            @Override
+            public void run() {
+                try  {
+                    Log.v("MainActivity:", "BEFORE BREW INSERT");
+                    Brew fakeBrew = new Brew("fake_brew", false, false);
+                    brewDao.insert(fakeBrew);
+
+                    Log.v("MainActivity:", "BEFORE BREW GET");
+                    int fakeIdBrew = brewDao.getBrewByName("fake_brew").id;
+                    Capsule fakeCapsule = new Capsule(fakeIdBrew, "fake_coffe", 42);
+                    Log.v("MainActivity:", "BEFORE CAPSULE INSERT, ");
+                    capsuleDao.insert(fakeCapsule);
+
+
+                    int fakeIdCapsule = capsuleDao.getCapsuleByBrewId(fakeIdBrew).id;
+
+                    Log.v("MainActivity:", "BEFORE DELETE fakeIdBrew=" + fakeIdBrew + " fakeIdCapsule=" + fakeIdCapsule);
+                    brewDao.deleteById(fakeIdBrew);
+                    capsuleDao.deleteById(fakeIdCapsule);
+
+                    List<Brew> brewList = brewDao.getAll();
+                    List<Capsule> capsuleList = capsuleDao.getAll();
+                    Log.v("MainActivity: ", brewList.size()+ " ||||| " + capsuleList.size());
+                    Log.v("MainActivity list: ", brewList.toString() + " ||||| " + capsuleList.toString());
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+        thread.start();
     }
 
     @Override
@@ -63,8 +126,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /*
-    * timer for coffee brewing, displays time till end of brewing
-    * @param brewTimeForTimer brew time set by selected button
+     * timer for coffee brewing, displays time till end of brewing
+     * @param brewTimeForTimer brew time set by selected button
      */
     public void timer(int brewTimeForTimer, final ImageButton button) {
 

@@ -14,7 +14,10 @@ public interface BrewDao {
     List<Brew> getAll();
 
     @Query("SELECT * FROM coffee_brews WHERE id=:id")
-    Brew getBrew(int id);
+    Brew getBrewById(int id);
+
+    @Query("SELECT * FROM coffee_brews WHERE name=:name")
+    Brew getBrewByName(String name);
 
     @Insert
     void insert(Brew... brews);
@@ -29,5 +32,8 @@ public interface BrewDao {
     void update(Brew... brews);
 
     @Delete
-    void delete(Brew... brews);
+    void delete(Brew brew);
+
+    @Query("DELETE FROM coffee_brews WHERE id=:id")
+    void deleteById(int id);
 }

@@ -19,4 +19,16 @@ public class Brew {
 
     @ColumnInfo(name = "double_cup")
     public boolean doubleCup;
+
+    public Brew(String name, boolean favorite, final boolean doubleCup){
+        this.name = name;
+        this.favorite = favorite;
+        this.doubleCup = doubleCup;
+    }
+
+    @NonNull
+    @Override
+    public String toString() {
+        return  "id: " + id + " name: " + name;
+    }
 }
