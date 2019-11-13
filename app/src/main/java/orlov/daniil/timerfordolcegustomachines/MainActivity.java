@@ -4,7 +4,6 @@ import android.content.Context;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Vibrator;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -14,8 +13,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
-
-import java.util.List;
 
 import orlov.daniil.timerfordolcegustomachines.data.Brew;
 import orlov.daniil.timerfordolcegustomachines.data.BrewDao;
@@ -29,16 +26,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Log.v("MainActivity:", "BEFORE NEW THREAD");
-
-//        Executors.newSingleThreadScheduledExecutor().execute(new Runnable() {
-//            @Override
-//            public void run() {
-//                RoomDatabase db = CoffeeDatabase.getInstance(getApplicationContext());
-//                db.beginTransaction();
-//                db.endTransaction();
-//            }
-//        });
 
         final BrewDao brewDao = CoffeeDatabase
                 .getInstance(this)
@@ -48,41 +35,30 @@ public class MainActivity extends AppCompatActivity {
                 .getInstance(this)
                 .getCapsuleDao();
 
-
-
-        Thread thread = new Thread(new Runnable() {
+        new Thread(new Runnable() {
 
             @Override
             public void run() {
                 try  {
-                    Log.v("MainActivity:", "BEFORE BREW INSERT");
-                    Brew fakeBrew = new Brew("fake_brew", false, false);
+                    Brew fakeBrew = new Brew("fake_brew", false, false, "#000000");
                     brewDao.insert(fakeBrew);
 
-                    Log.v("MainActivity:", "BEFORE BREW GET");
                     int fakeIdBrew = brewDao.getBrewByName("fake_brew").id;
-                    Capsule fakeCapsule = new Capsule(fakeIdBrew, "fake_coffe", 42);
-                    Log.v("MainActivity:", "BEFORE CAPSULE INSERT, ");
+                    Capsule fakeCapsule = new Capsule(fakeIdBrew, "fake_coffee",42, 42);
                     capsuleDao.insert(fakeCapsule);
 
-
                     int fakeIdCapsule = capsuleDao.getCapsuleByBrewId(fakeIdBrew).id;
-
-                    Log.v("MainActivity:", "BEFORE DELETE fakeIdBrew=" + fakeIdBrew + " fakeIdCapsule=" + fakeIdCapsule);
                     brewDao.deleteById(fakeIdBrew);
                     capsuleDao.deleteById(fakeIdCapsule);
 
-                    List<Brew> brewList = brewDao.getAll();
-                    List<Capsule> capsuleList = capsuleDao.getAll();
-                    Log.v("MainActivity: ", brewList.size()+ " ||||| " + capsuleList.size());
-                    Log.v("MainActivity list: ", brewList.toString() + " ||||| " + capsuleList.toString());
+//                    List<Brew> brewList = brewDao.getAll();
+//                    List<Capsule> capsuleList = capsuleDao.getAll();
+//                    Log.v("SQLDEBUG MainA: ", brewList.size()+ " ||||| " + capsuleList.size());
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
-        });
-
-        thread.start();
+        }).start();
     }
 
     @Override

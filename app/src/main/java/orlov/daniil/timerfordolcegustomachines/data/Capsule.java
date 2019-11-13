@@ -20,6 +20,7 @@ public class Capsule {
     @PrimaryKey(autoGenerate = true)
     public int id;
 
+    @NonNull
     @ColumnInfo(name = "brew_id")
     public final int brewId;
 
@@ -27,12 +28,17 @@ public class Capsule {
     @ColumnInfo(name = "capsule_type")
     public final String capsuleType;
 
+    @NonNull
+    public final int volume;
+
+    @NonNull
     @ColumnInfo(name = "brew_time")
     public final int brewTime;
 
-    public Capsule(final int brewId, final String capsuleType, int brewTime){
+    public Capsule(final int brewId, final String capsuleType, int volume, int brewTime){
         this.brewId = brewId;
         this.capsuleType = capsuleType;
+        this.volume = volume;
         this.brewTime = brewTime;
     }
 

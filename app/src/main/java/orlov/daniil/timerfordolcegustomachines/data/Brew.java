@@ -7,7 +7,7 @@ import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
 @Entity(tableName = "coffee_brews",
-indices = {@Index("name")})
+indices = {@Index(value = "name", unique = true)})
 public class Brew {
     @PrimaryKey(autoGenerate = true)
     public int id;
@@ -15,15 +15,21 @@ public class Brew {
     @NonNull
     public String name;
 
+    @NonNull
     public boolean favorite;
 
+    @NonNull
     @ColumnInfo(name = "double_cup")
     public boolean doubleCup;
 
-    public Brew(String name, boolean favorite, final boolean doubleCup){
+    @NonNull
+    public String color;
+
+    public Brew(String name, boolean favorite, final boolean doubleCup, final String color){
         this.name = name;
         this.favorite = favorite;
         this.doubleCup = doubleCup;
+        this.color = color;
     }
 
     @NonNull
