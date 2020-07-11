@@ -1,18 +1,28 @@
 package orlov.daniil.timerfordolcegustomachines;
 
 import android.content.Context;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Vibrator;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cursoradapter.widget.CursorAdapter;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import java.util.List;
 
 import orlov.daniil.timerfordolcegustomachines.data.Brew;
 import orlov.daniil.timerfordolcegustomachines.data.BrewDao;
@@ -22,44 +32,32 @@ import orlov.daniil.timerfordolcegustomachines.data.CoffeeDatabase;
 
 public class MainActivity extends AppCompatActivity {
 
+    int brewTime = 0; //time for coffee brewing
+    CountDownTimer timerV; //variable for timer
+    String checkStatus = "";
+    boolean vibrationOnOff;
+
+    private CoffeeViewModel mCoffeeViewModel;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.content_main);
 
-        final BrewDao brewDao = CoffeeDatabase
-                .getInstance(this)
-                .getBrewDao();
-
-        final CapsuleDao capsuleDao = CoffeeDatabase
-                .getInstance(this)
-                .getCapsuleDao();
-
-        new Thread(new Runnable() {
-
+        RecyclerView recyclerView = findViewById(R.id.recyclerview);
+        final CoffeeListAdapter adapter = new CoffeeListAdapter(this);
+        recyclerView.setAdapter(adapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        mCoffeeViewModel = ViewModelProviders.of(this).get(CoffeeViewModel.class);
+        mCoffeeViewModel.getmAllBrews().observe(this, new Observer<List<Brew>>() {
             @Override
-            public void run() {
-                try  {
-                    Brew fakeBrew = new Brew("fake_brew", false, false, "#000000");
-                    brewDao.insert(fakeBrew);
-
-                    int fakeIdBrew = brewDao.getBrewByName("fake_brew").id;
-                    Capsule fakeCapsule = new Capsule(fakeIdBrew, "fake_coffee",42, 42);
-                    capsuleDao.insert(fakeCapsule);
-
-                    int fakeIdCapsule = capsuleDao.getCapsuleByBrewId(fakeIdBrew).id;
-                    brewDao.deleteById(fakeIdBrew);
-                    capsuleDao.deleteById(fakeIdCapsule);
-
-//                    List<Brew> brewList = brewDao.getAll();
-//                    List<Capsule> capsuleList = capsuleDao.getAll();
-//                    Log.v("SQLDEBUG MainA: ", brewList.size()+ " ||||| " + capsuleList.size());
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+            public void onChanged(List<Brew> brews) {
+                adapter.setBrews(brews);
             }
-        }).start();
+        });
     }
+
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -83,11 +81,6 @@ public class MainActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
-
-    int brewTime = 0; //time for coffee brewing
-    CountDownTimer timerV; //variable for timer
-    String checkStatus = "";
-    boolean vibrationOnOff;
 
     /*
     creates a toast, that notify user to cancel existing countdown before starting a new one

@@ -11,7 +11,7 @@ import java.util.List;
 @Dao
 public interface CapsuleDao {
     @Query("SELECT * FROM capsules")
-    List<Capsule> getAll();
+    List<Capsule> getAllCapsules();
 
     @Query("SELECT * FROM capsules WHERE id=:id")
     Capsule getCapsuleById(int id);

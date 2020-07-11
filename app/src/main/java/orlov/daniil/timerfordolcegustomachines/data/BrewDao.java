@@ -1,5 +1,6 @@
 package orlov.daniil.timerfordolcegustomachines.data;
 
+import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
@@ -11,13 +12,16 @@ import java.util.List;
 @Dao
 public interface BrewDao {
     @Query("SELECT * FROM coffee_brews")
-    List<Brew> getAll();
+    LiveData<List<Brew>> getAllBrews();
 
     @Query("SELECT * FROM coffee_brews WHERE id=:id")
     Brew getBrewById(int id);
 
     @Query("SELECT * FROM coffee_brews WHERE name=:name")
     Brew getBrewByName(String name);
+
+    @Query("SELECT name FROM coffee_brews")
+    List<String> getBrewNames();
 
     @Insert
     void insert(Brew... brews);
@@ -33,6 +37,9 @@ public interface BrewDao {
 
     @Delete
     void delete(Brew brew);
+
+    @Query("DELETE FROM coffee_brews")
+    void deleteAll();
 
     @Query("DELETE FROM coffee_brews WHERE id=:id")
     void deleteById(int id);
