@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     style="@style/coffeeLinearLayout">
+
     <View style="@style/coffeeDivider" />
 
-
-    <ImageButton
-        style="@style/coffeeStartBrewingButton"
-        android:background="#FFFFFF"
-        android:id="@+id/coffeeButton"
+    <View
+        style="@style/coffeeColorView"
+        android:background="#000000"
+        android:id="@+id/coffeeColorView"
         />
 
     <View style="@style/coffeeDivider" />
@@ -16,14 +16,6 @@
         style="@style/coffeeBeverage"
         android:id="@+id/coffeeBeverage"
         android:text="Coffee"/>
-
-    <View style="@style/coffeeDivider" />
-
-    <TextView
-        style="@style/coffeeVolume"
-        android:id="@+id/coffeeVolume"
-        android:text="50ml" />
-
 
     <View style="@style/coffeeDivider" />
 </LinearLayout>

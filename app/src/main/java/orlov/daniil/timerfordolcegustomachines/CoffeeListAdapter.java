@@ -1,6 +1,7 @@
 package orlov.daniil.timerfordolcegustomachines;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,6 +33,7 @@ public class CoffeeListAdapter extends RecyclerView.Adapter<CoffeeListAdapter.Co
     public void onBindViewHolder(@NonNull CoffeeViewHolder holder, int position) {
         if(mBrews !=null){
             Brew current = mBrews.get(position);
+            holder.coffeeColorView.setBackgroundColor(Color.parseColor(current.color));
             holder.coffeeBeverageItemView.setText(current.name);
         } else {
             holder.coffeeBeverageItemView.setText("please, wait...");
@@ -52,10 +54,12 @@ public class CoffeeListAdapter extends RecyclerView.Adapter<CoffeeListAdapter.Co
     }
 
     class CoffeeViewHolder extends RecyclerView.ViewHolder {
+        private final View coffeeColorView;
         private final TextView coffeeBeverageItemView;
 
         private CoffeeViewHolder(View itemView){
             super(itemView);
+            coffeeColorView = itemView.findViewById(R.id.coffeeColorView);
             coffeeBeverageItemView = itemView.findViewById(R.id.coffeeBeverage);
         }
     }

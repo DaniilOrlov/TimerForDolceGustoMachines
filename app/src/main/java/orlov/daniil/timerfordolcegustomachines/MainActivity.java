@@ -43,21 +43,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.content_main);
-
-        RecyclerView recyclerView = findViewById(R.id.recyclerview);
-        final CoffeeListAdapter adapter = new CoffeeListAdapter(this);
-        recyclerView.setAdapter(adapter);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        mCoffeeViewModel = ViewModelProviders.of(this).get(CoffeeViewModel.class);
-        mCoffeeViewModel.getmAllBrews().observe(this, new Observer<List<Brew>>() {
-            @Override
-            public void onChanged(List<Brew> brews) {
-                adapter.setBrews(brews);
-            }
-        });
+        setUpRecyclerView();
     }
-
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -80,6 +67,20 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void setUpRecyclerView(){
+        RecyclerView recyclerView = findViewById(R.id.recyclerview);
+        final CoffeeListAdapter adapter = new CoffeeListAdapter(this);
+        recyclerView.setAdapter(adapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        mCoffeeViewModel = ViewModelProviders.of(this).get(CoffeeViewModel.class);
+        mCoffeeViewModel.getmAllBrews().observe(this, new Observer<List<Brew>>() {
+            @Override
+            public void onChanged(List<Brew> brews) {
+                adapter.setBrews(brews);
+            }
+        });
     }
 
     /*
