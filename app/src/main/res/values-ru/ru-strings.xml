@@ -2,5 +2,6 @@
 <resources>
     <string name="app_name">Timer for Dolce Gusto machines</string>
     <string name="toast_one_cup">Пожалуйста, сначала остановите текущий таймер.</string>
+    <string name="search_settings">Поиск</string>
     <string name="vibration_settings">вибрация</string>
 </resources>

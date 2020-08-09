@@ -1,22 +1,21 @@
 package orlov.daniil.timerfordolcegustomachines;
 
 import android.content.Context;
-import android.database.Cursor;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Vibrator;
+import android.util.Log;
 import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.cursoradapter.widget.CursorAdapter;
+import androidx.appcompat.widget.SearchView;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -25,17 +24,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.List;
 
 import orlov.daniil.timerfordolcegustomachines.data.Brew;
-import orlov.daniil.timerfordolcegustomachines.data.BrewDao;
-import orlov.daniil.timerfordolcegustomachines.data.Capsule;
-import orlov.daniil.timerfordolcegustomachines.data.CapsuleDao;
-import orlov.daniil.timerfordolcegustomachines.data.CoffeeDatabase;
 
 public class MainActivity extends AppCompatActivity {
 
     int brewTime = 0; //time for coffee brewing
     CountDownTimer timerV; //variable for timer
     String checkStatus = "";
-    boolean vibrationOnOff;
+    CoffeeListAdapter adapter;
 
     private CoffeeViewModel mCoffeeViewModel;
 
@@ -46,32 +41,9 @@ public class MainActivity extends AppCompatActivity {
         setUpRecyclerView();
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        //getMenuInflater().inflate(R.menu.vibration, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.vibration_settings) {
-
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-
     private void setUpRecyclerView(){
         RecyclerView recyclerView = findViewById(R.id.recyclerview);
-        final CoffeeListAdapter adapter = new CoffeeListAdapter(this);
+        adapter = new CoffeeListAdapter(this);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         mCoffeeViewModel = ViewModelProviders.of(this).get(CoffeeViewModel.class);
@@ -81,6 +53,26 @@ public class MainActivity extends AppCompatActivity {
                 adapter.setBrews(brews);
             }
         });
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.search_main, menu);
+        MenuItem searchItem = menu.findItem(R.id.action_search);
+        SearchView searchView = (SearchView) searchItem.getActionView();
+        searchView.setImeOptions(EditorInfo.IME_ACTION_DONE);
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                adapter.getFilter().filter(newText);
+                return false;
+            }
+        });
+        return true;
     }
 
     /*
