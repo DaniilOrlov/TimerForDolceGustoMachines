@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFFFFF"
+    android:orientation="vertical"
+    tools:context=".DetailedCoffeeActivity">
+
+    <TextView
+        android:id="@+id/timerView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:background="#795548"
+        android:gravity="center"
+        android:text="00"
+        android:textColor="#FFFFFF"
+        android:textSize="112sp" />
+
+    <LinearLayout
+        style="@style/coffeeLinearLayout"
+        android:layout_weight="20"
+        android:gravity="center"
+        android:visibility="gone"
+        android:id="@+id/singleCapLinearLayout">
+
+        <View style="@style/coffeeDivider" />
+
+
+        <ImageButton
+            android:id="@+id/singleCupStartButton"
+            style="@style/coffeeStartBrewingButton"
+            android:background="#b1175d" />
+
+        <View style="@style/coffeeDivider" />
+
+        <TextView
+            android:id="@+id/singleCapBrewName"
+            style="@style/coffeeBeverage"
+            android:text="Brew Name" />
+
+        <View style="@style/coffeeDivider" />
+
+        <TextView
+            android:id="@+id/singleCapBrewVolume"
+            style="@style/coffeeVolume"
+            android:text="50ml" />
+
+
+        <View style="@style/coffeeDivider" />
+    </LinearLayout>
+
+    <LinearLayout
+        style="@style/coffeeDoubleVertical"
+        android:id="@+id/doubleCapVerticalLayout"
+        android:layout_weight="20"
+        android:gravity="center"
+        android:visibility="gone">
+
+        <LinearLayout style="@style/doubleCapsuleLinearLayout">
+
+            <View style="@style/coffeeDivider" />
+
+            <ImageButton
+                android:id="@+id/doubleFirstStartButton"
+                style="@style/doubleCapsuleStartBrewingButton"
+                android:background="#cacf01" />
+
+            <View style="@style/coffeeDivider" />
+
+            <LinearLayout style="@style/doubleCapsuleVerticalLayout">
+
+                <TextView
+                    style="@style/brewTypeTextView"
+                    android:text="Coffee"
+                    android:id="@+id/doubleFirstBrewType"/>
+
+                <TextView
+                    style="@style/capsuleTypeTextView"
+                    android:text="first capsule"
+                    android:id="@+id/doubleFirstCapDescription"/>
+            </LinearLayout>
+
+            <View style="@style/coffeeDivider" />
+
+            <TextView
+                style="@style/coffeeVolume"
+                android:text="200ml"
+                android:id="@+id/doubleFirstVol"/>
+
+            <View style="@style/coffeeDivider" />
+
+        </LinearLayout>
+
+        <View style="@style/doubleCapsuleDividerHorizontal" />
+
+        <LinearLayout style="@style/doubleCapsuleLinearLayout">
+
+            <View style="@style/coffeeDivider" />
+
+            <ImageButton
+                android:id="@+id/doubleSecondStartButton"
+                style="@style/doubleCapsuleStartBrewingButton"
+                android:background="#cacf01" />
+
+            <View style="@style/coffeeDivider" />
+
+            <LinearLayout style="@style/doubleCapsuleVerticalLayout">
+
+                <TextView
+                    style="@style/brewTypeTextView"
+                    android:text="Cappuccino"
+                    android:id="@+id/doubleSecondBrewType"/>
+
+                <TextView
+                    style="@style/capsuleTypeTextView"
+                    android:text="second capsule"
+                    android:id="@+id/doubleSecondCapDescription"/>
+            </LinearLayout>
+
+            <View style="@style/coffeeDivider" />
+
+            <TextView
+                style="@style/coffeeVolume"
+                android:text="40ml"
+                android:id="@+id/doubleSecondVol"/>
+
+            <View style="@style/coffeeDivider" />
+
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

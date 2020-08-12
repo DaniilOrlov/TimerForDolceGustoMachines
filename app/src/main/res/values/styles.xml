@@ -20,6 +20,12 @@
         <item name="android:orientation">horizontal</item>
     </style>
 
+    <style name="coffeeDoubleVertical">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:orientation">vertical</item>
+    </style>
+
     <style name="coffeeDivider">
         <item name="android:layout_height">match_parent</item>
         <item name="android:layout_width">16dp</item>

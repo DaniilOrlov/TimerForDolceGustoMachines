@@ -6,22 +6,10 @@
     android:orientation="vertical"
     android:background="#FFFFFF">
 
-    <TextView
-        android:id="@+id/timerView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:background="#795548"
-        android:gravity="center"
-        android:text="00"
-        android:textColor="#FFFFFF"
-        android:textSize="112sp" />
-
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerview"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="20"
-        tools:listitem="@layout/single_cup_item"
+        android:layout_height="match_parent"
+        tools:listitem="@layout/coffee_item_main"
         />
 </LinearLayout>

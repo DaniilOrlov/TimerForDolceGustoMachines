@@ -1,12 +1,14 @@
 package orlov.daniil.timerfordolcegustomachines;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Filter;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -28,19 +30,34 @@ public class CoffeeListAdapter extends RecyclerView.Adapter<CoffeeListAdapter.Co
     @NonNull
     @Override
     public CoffeeViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View itemView = mInflater.inflate(R.layout.single_cup_item, parent, false);
+        View itemView = mInflater.inflate(R.layout.coffee_item_main, parent, false);
         return new CoffeeViewHolder(itemView);
     }
 
     @Override
     public void onBindViewHolder(@NonNull CoffeeViewHolder holder, int position) {
         if (mBrews != null) {
-            Brew current = mBrews.get(position);
+            final Brew current = mBrews.get(position);
             holder.coffeeColorView.setBackgroundColor(Color.parseColor(current.color));
             holder.coffeeBeverageItemView.setText(current.name);
+            brewOnClick(holder, current);
         } else {
             holder.coffeeBeverageItemView.setText("please, wait...");
         }
+    }
+
+    private void brewOnClick(CoffeeViewHolder holder, final Brew current){
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(view.getContext(), DetailedCoffeeActivity.class);
+                intent.putExtra("EXTRA_BREW_ID", current.id);
+                intent.putExtra("EXTRA_BREW_NAME", current.name);
+                intent.putExtra("EXTRA_BREW_COLOR", current.color);
+                intent.putExtra("EXTRA_DOUBLE_CAP", current.doubleCup);
+                view.getContext().startActivity(intent);
+            }
+        });
     }
 
     void setBrews(List<Brew> brews) {
