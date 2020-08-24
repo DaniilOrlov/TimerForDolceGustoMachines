@@ -8,6 +8,9 @@ import androidx.room.Update;
 
 import java.util.List;
 
+import io.reactivex.Flowable;
+import io.reactivex.Single;
+
 @Dao
 public interface CapsuleDao {
     @Query("SELECT * FROM capsules")
@@ -17,7 +20,7 @@ public interface CapsuleDao {
     Capsule getCapsuleById(int id);
 
     @Query("SELECT * FROM capsules WHERE brew_id=:brewId")
-    Capsule getCapsuleByBrewId(int brewId);
+    Flowable<List<Capsule>> getCapsuleByBrewId(int brewId);
 
     @Insert
     void insert(Capsule... capsules);

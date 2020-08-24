@@ -3,4 +3,5 @@
     <string name="toast_one_cup">Please, stop current countdown first.</string>
     <string name="search_settings">Search</string>
     <string name="vibration_settings">vibration</string>
+    <string name="cap_volume">ml</string>
 </resources>
