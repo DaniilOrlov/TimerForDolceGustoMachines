@@ -28,11 +28,11 @@
 
         <View style="@style/coffeeDivider" />
 
-
         <ImageButton
             android:id="@+id/singleCupStartButton"
             style="@style/coffeeStartBrewingButton"
-            android:background="#b1175d" />
+            android:background="#b1175d"
+            android:onClick="onSingleCupStartClick"/>
 
         <View style="@style/coffeeDivider" />
 
@@ -66,7 +66,8 @@
             <ImageButton
                 android:id="@+id/doubleFirstStartButton"
                 style="@style/doubleCapsuleStartBrewingButton"
-                android:background="#cacf01" />
+                android:background="#cacf01"
+                android:onClick="onDoubleFirstStartClick"/>
 
             <View style="@style/coffeeDivider" />
 
@@ -103,7 +104,8 @@
             <ImageButton
                 android:id="@+id/doubleSecondStartButton"
                 style="@style/doubleCapsuleStartBrewingButton"
-                android:background="#cacf01" />
+                android:background="#cacf01"
+                android:onClick="onDoubleSecondStartClick"/>
 
             <View style="@style/coffeeDivider" />
 
