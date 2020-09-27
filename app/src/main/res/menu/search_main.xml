@@ -8,6 +8,6 @@
         android:id="@+id/action_search"
         android:icon="@drawable/baseline_search_white_18dp"
         android:title="@string/search_settings"
-        app:showAsAction="ifRoom|collapseActionView"
+        app:showAsAction="always|collapseActionView"
         app:actionViewClass="androidx.appcompat.widget.SearchView"/>
 </menu>
