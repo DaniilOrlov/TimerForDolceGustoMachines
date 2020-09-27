@@ -1,10 +1,18 @@
 package orlov.daniil.timerfordolcegustomachines;
 
 import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.preference.PreferenceManager;
 
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.media.Ringtone;
+import android.media.RingtoneManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Vibrator;
@@ -26,6 +34,7 @@ import orlov.daniil.timerfordolcegustomachines.data.CoffeeDatabase;
 
 public class DetailedCoffeeActivity extends AppCompatActivity {
 
+    private SharedPreferences sharedPref;
     private Disposable disposable;
     private CountDownTimer timer;
     private TimerStatus timerStatus;
@@ -36,6 +45,12 @@ public class DetailedCoffeeActivity extends AppCompatActivity {
     private List<Capsule> capsuleList;
     private int firstCapBrewTime;
     private int secondCapBrewTime;
+
+    Vibrator vibrator;
+    Uri notification;
+    Ringtone ringtone;
+    private boolean soundIsActive;
+    private boolean vibrationIsActive;
 
     private View linearSingleCap;
     private View linearDoubleCap;
@@ -57,6 +72,14 @@ public class DetailedCoffeeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_detailed_coffee);
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) actionBar.setDisplayHomeAsUpEnabled(true);
+        sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
+        setSettings();
+
+        vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+        notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+        ringtone = RingtoneManager.getRingtone(getApplicationContext(), notification);
+        vibrationIsActive = true;
+        soundIsActive = true;
 
         timerStatus = TimerStatus.NOT_ACTIVE;
         viewTimer = findViewById(R.id.timerView);
@@ -197,17 +220,20 @@ public class DetailedCoffeeActivity extends AppCompatActivity {
             public void onTick(long millisUntilFinished) {
                 viewTimer.setText(Long.toString(millisUntilFinished / 1000));
             }
+
             public void onFinish() {
+
                 timerStatus = TimerStatus.NOT_ACTIVE;
                 viewTimer.setText("0");
-                Vibrator vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
-                vibrator.vibrate(500);
+                setSettings();
+                if(soundIsActive) ringtone.play();
+                if(vibrationIsActive) vibrator.vibrate(500);
                 button.setImageResource(R.drawable.play);
             }
         }.start();
     }
 
-    private void cancelTimer(ImageButton button){
+    private void cancelTimer(ImageButton button) {
         timer.cancel();
         timerStatus = TimerStatus.NOT_ACTIVE;
         button.setImageResource(R.drawable.play);
@@ -215,6 +241,7 @@ public class DetailedCoffeeActivity extends AppCompatActivity {
     }
 
     public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.settings, menu);
         return true;
     }
 
@@ -222,7 +249,19 @@ public class DetailedCoffeeActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         if (id == android.R.id.home) {
-            finish();
+            switch (timerStatus) {
+                case NOT_ACTIVE:
+                    finish();
+                    break;
+                default:
+                    alertTimerOnExit().show();
+            }
+            return true;
+        }
+
+        if(id == R.id.action_settings){
+            Intent intent = new Intent(this, SettingsActivity.class);
+            startActivity(intent);
             return true;
         }
 
@@ -230,9 +269,69 @@ public class DetailedCoffeeActivity extends AppCompatActivity {
     }
 
     @Override
+    public void onBackPressed() {
+        switch (timerStatus) {
+            case NOT_ACTIVE:
+                super.onBackPressed();
+                break;
+            default:
+                alertTimerOnExit().show();
+        }
+    }
+
+    @Override
     protected void onDestroy() {
         super.onDestroy();
         disposable.dispose();
+    }
+
+    private void cancelTimerOnExit() {
+        switch (timerStatus) {
+            case SINGLE_CUP_ACTIVE:
+                cancelTimer(firstCapStart);
+                break;
+            case FIRST_CUP_ACTIVE:
+                cancelTimer(firstCapStart);
+                break;
+            case SECOND_CUP_ACTIVE:
+                cancelTimer(secondCapStart);
+                break;
+            default:
+                Toast.makeText(this, getString(R.string.toast_one_cup),
+                        Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private AlertDialog alertTimerOnExit() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage(R.string.alert_on_exit);
+        builder.setCancelable(true);
+
+        builder.setPositiveButton(
+                R.string.confirm_exit,
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        cancelTimerOnExit();
+                        finish();
+                    }
+                }
+        );
+
+        builder.setNegativeButton(
+                R.string.cancel_exit,
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                    }
+                }
+        );
+
+        return builder.create();
+    }
+
+    private void setSettings(){
+        soundIsActive = sharedPref.getBoolean(SettingsActivity.KEY_PREF_SOUND, false);
+        vibrationIsActive = sharedPref.getBoolean(SettingsActivity.KEY_PREF_VIBRATION, false);
     }
 
     private enum TimerStatus {

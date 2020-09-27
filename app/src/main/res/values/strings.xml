@@ -2,6 +2,12 @@
     <string name="app_name">Timer for Dolce Gusto machines</string>
     <string name="toast_one_cup">Please, stop current countdown first.</string>
     <string name="search_settings">Search</string>
+    <string name="settings_button">Settings</string>
     <string name="vibration_settings">vibration</string>
     <string name="cap_volume">ml</string>
+    <string name="alert_on_exit">Would you like to stop the current countdown and quit?</string>
+    <string name="confirm_exit">Quit</string>
+    <string name="cancel_exit">Cancel</string>
+    <string name="sounds">In-App Sounds</string>
+    <string name="vibration">In-App Vibrate</string>
 </resources>

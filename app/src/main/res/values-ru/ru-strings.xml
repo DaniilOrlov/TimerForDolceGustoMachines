@@ -3,6 +3,12 @@
     <string name="app_name">Timer for Dolce Gusto machines</string>
     <string name="toast_one_cup">Пожалуйста, сначала остановите текущий таймер.</string>
     <string name="search_settings">Поиск</string>
+    <string name="settings_button">Настройки</string>
     <string name="vibration_settings">вибрация</string>
     <string name="cap_volume">мл</string>
+    <string name="alert_on_exit">Остановить текущий таймер и выйти?</string>
+    <string name="confirm_exit">Выйти</string>
+    <string name="cancel_exit">Остаться</string>
+    <string name="sounds">Звук</string>
+    <string name="vibration">Вибросигнал</string>
 </resources>

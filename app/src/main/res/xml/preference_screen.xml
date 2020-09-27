@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto">>
+    <SwitchPreferenceCompat
+        app:key="sound_setting"
+        app:title="@string/sounds"
+        app:defaultValue="true"/>
+
+    <SwitchPreferenceCompat
+        app:key="vibration_setting"
+        app:title="@string/vibration"
+        app:defaultValue="true"/>
+</PreferenceScreen>
