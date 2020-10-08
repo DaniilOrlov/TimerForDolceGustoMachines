@@ -27,6 +27,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.List;
 
 import orlov.daniil.timerfordolcegustomachines.data.Brew;
+import orlov.daniil.timerfordolcegustomachines.data.CoffeeDatabase;
 
 public class MainActivity extends AppCompatActivity {
 

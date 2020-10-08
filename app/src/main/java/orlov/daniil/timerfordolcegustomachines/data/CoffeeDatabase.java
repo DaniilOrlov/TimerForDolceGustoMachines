@@ -62,37 +62,4 @@ public abstract class CoffeeDatabase extends RoomDatabase {
                 })
                 .build();
     }
-
-//    private static RoomDatabase.Callback sRoomDatabaseCallback = new RoomDatabase.Callback(){
-//        public void onCreate(SupportSQLiteDatabase db) {
-//            super.onCreate(db);
-//            Executors.newSingleThreadScheduledExecutor().execute(new Runnable() {
-//                @Override
-//                public void run() {
-//                    BrewDao brewDao = getInstance(context).getBrewDao();
-//                    brewDao.insert(InitData.getBrewList());
-//                    String[] brewNames = InitData.getBrewNames();
-//                    Map<String, Integer> brewIds = new HashMap<>();
-//                    for(String brewName : brewNames){
-//                        Integer brewId = brewDao.getBrewByName(brewName).id;
-//                        brewIds.put(brewName, brewId);
-//                    }
-//                    CapsuleDao capsuleDao = getInstance(context).getCapsuleDao();
-//                    List<Capsule> capsuleList = InitData.getCapsuleList(brewIds);
-//                    capsuleDao.insert(capsuleList);
-//                }
-//            });
-//        }
-//
-//        public void onOpen(SupportSQLiteDatabase db) {
-//            // do something every time database is open
-//            super.onOpen(db);
-//        }
-//    };
-
-//        public void onOpen(SupportSQLiteDatabase db) {
-//            // do something every time database is open
-//            super.onOpen(db);
-//        }
-//    };
 }

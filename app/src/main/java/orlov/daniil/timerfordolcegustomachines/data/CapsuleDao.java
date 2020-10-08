@@ -37,6 +37,9 @@ public interface CapsuleDao {
     @Delete
     void delete(Capsule... capsules);
 
+    @Query("DELETE FROM capsules")
+    void deleteAll();
+
     @Query("DELETE FROM capsules WHERE id=:id")
     void deleteById(int id);
 }
